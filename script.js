@@ -16,6 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
         refreshBtn: document.getElementById('refresh-btn'),
         systemPromptInput: document.getElementById('system-prompt-input'),
         apiSettingsBtn: document.getElementById('api-settings-btn'),
+        themeToggleBtn: document.getElementById('theme-toggle-btn'), // 新增
         // Modal & API Form
         modalOverlay: document.getElementById('api-modal-overlay'),
         closeModalBtn: document.getElementById('close-modal-btn'),
@@ -37,9 +38,34 @@ document.addEventListener('DOMContentLoaded', () => {
     let isSending = false;
     let currentApiType = 'openai';
     const SETTINGS_KEY = 'aiChatApiSettings';
+    const THEME_KEY = 'aiChatTheme'; // 新增
     const defaultModels = {
         openai: { "gpt-3.5-turbo": "GPT-3.5-Turbo" },
         gemini: { "gemini-pro": "Gemini Pro" }
+    };
+
+    // --- THEME LOGIC (新功能) ---
+    const applyTheme = (theme) => {
+        const toggleIcon = dom.themeToggleBtn.querySelector('i');
+        if (theme === 'dark') {
+            document.body.classList.add('dark-mode');
+            toggleIcon.classList.remove('fa-moon');
+            toggleIcon.classList.add('fa-sun');
+        } else {
+            document.body.classList.remove('dark-mode');
+            toggleIcon.classList.remove('fa-sun');
+            toggleIcon.classList.add('fa-moon');
+        }
+        localStorage.setItem(THEME_KEY, theme);
+    };
+
+    const loadTheme = () => {
+        let savedTheme = localStorage.getItem(THEME_KEY);
+        if (!savedTheme) {
+            // 如果用户未手动选择，则遵循系统设置
+            savedTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        }
+        applyTheme(savedTheme);
     };
 
     // --- MODAL CONTROL ---
@@ -316,14 +342,19 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     // --- EVENT LISTENERS ---
+    dom.themeToggleBtn.addEventListener('click', () => {
+        const currentTheme = localStorage.getItem(THEME_KEY) || 'light';
+        const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+        applyTheme(newTheme);
+    });
+
     dom.sendBtn.addEventListener('click', handleSendMessage);
     dom.newChatBtn.addEventListener('click', handleNewChat);
     dom.refreshBtn.addEventListener('click', handleNewChat);
     
-    // 监听 input 的 keydown 事件，只处理 Enter
     dom.chatInput.addEventListener('keydown', (e) => {
         if (e.key === 'Enter') {
-            e.preventDefault(); // 阻止默认的回车行为（如表单提交）
+            e.preventDefault();
             handleSendMessage();
         }
     });
@@ -341,6 +372,7 @@ document.addEventListener('DOMContentLoaded', () => {
     dom.apiKeyInput.addEventListener('blur', () => { dom.apiKeyInput.type = 'password'; });
 
     // --- INITIAL LOAD ---
+    loadTheme(); // 首先加载主题
     initializeApiForm();
     loadAndCheckApiSettings();
 });
