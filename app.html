@@ -51,10 +51,11 @@
             </div>
         </main>
 
-        <footer class="chat-input-area">
-            <textarea id="chat-input" placeholder="输入消息..." rows="1"></textarea>
-            <button id="send-btn" class="icon-btn" title="发送"><i class="fas fa-paper-plane"></i></button>
-        </footer>
+        <!-- 使用 <input> 替换 <textarea> 来修复键盘兼容性问题 -->
+<footer class="chat-input-area">
+    <input type="text" id="chat-input" placeholder="输入消息..." autocomplete="off">
+    <button id="send-btn" class="icon-btn" title="发送"><i class="fas fa-paper-plane"></i></button>
+</footer>
     </div>
 
     <!-- API Settings Modal -->
