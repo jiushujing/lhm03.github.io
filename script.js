@@ -323,7 +323,16 @@ document.addEventListener('DOMContentLoaded', () => {
         dom.chatInput.style.height = 'auto';
         dom.chatInput.style.height = `${dom.chatInput.scrollHeight}px`;
     };
+// --- EVENT LISTENERS ---
 
+// 新增：强制聚焦输入框以修复特殊浏览器兼容性问题
+dom.chatInput.parentElement.addEventListener('click', () => {
+    dom.chatInput.focus();
+});
+
+dom.sendBtn.addEventListener('click', handleSendMessage);
+// ... 其他的 event listener ...
+    
     // --- EVENT LISTENERS ---
     dom.sendBtn.addEventListener('click', handleSendMessage);
     dom.newChatBtn.addEventListener('click', handleNewChat);
