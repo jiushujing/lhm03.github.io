@@ -1,15 +1,38 @@
 :root {
+    /* Light Mode Colors */
     --page-bg: #ffffff;
+    --chat-wrapper-bg: #ffffff;
     --text-color: #000000;
     --text-color-light: #555;
     --border-color: #e0e0e0;
+    --title-border-color: #000000;
+    --control-btn-bg: #f8f9fa;
+    --assistant-msg-bg: #f1f1f1;
+    --form-element-bg: #f8f9fa;
+    --modal-content-bg: #f0f2f5;
+    --modal-inner-bg: #ffffff;
+    
+    /* Universal Colors */
     --user-msg-bg: #007bff;
     --user-msg-text: #ffffff;
-    --assistant-msg-bg: #f1f1f1;
     --green-accent: #28a745;
-    --primary-accent: #007bff; /* For API modal */
+    --primary-accent: #007bff;
 }
 
+body.dark-mode {
+    /* Dark Mode Colors */
+    --page-bg: #121212;
+    --chat-wrapper-bg: #1e1e1e;
+    --text-color: #e0e0e0;
+    --text-color-light: #888888;
+    --border-color: #3a3a3a;
+    --title-border-color: #e0e0e0;
+    --control-btn-bg: #2a2a2a;
+    --assistant-msg-bg: #2a2a2a;
+    --form-element-bg: #2a2a2a;
+    --modal-content-bg: #1e1e1e;
+    --modal-inner-bg: #2a2a2a;
+}
 html, body {
     margin: 0; padding: 0; height: 100%; width: 100%; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background-color: var(--page-bg); color: var(--text-color); overflow: hidden;
 }
