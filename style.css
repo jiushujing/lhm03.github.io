@@ -112,3 +112,34 @@ html, body {
     border-radius: 4px;
     font-size: 0.9em;
 }
+/* --- COPY BUTTON STYLES --- */
+.message .content pre {
+    position: relative; /* 让复制按钮可以相对于它定位 */
+}
+
+.copy-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    padding: 6px 10px;
+    background-color: #4a505c;
+    color: #e0e0e0;
+    border: 1px solid #6c757d;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 13px;
+    opacity: 0.7;
+    transition: opacity 0.2s, background-color 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.copy-btn:hover {
+    opacity: 1;
+    background-color: #5a6270;
+}
+
+.copy-btn .fa-check {
+    color: var(--green-accent);
+}
