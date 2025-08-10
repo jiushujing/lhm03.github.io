@@ -157,6 +157,29 @@ document.addEventListener('DOMContentLoaded', () => {
         return true;
     };
 
+    const addCopyButtons = (targetElement) => {
+        const codeBlocks = targetElement.querySelectorAll('pre');
+        codeBlocks.forEach(block => {
+            if (block.querySelector('.copy-btn')) return;
+            const button = document.createElement('button');
+            button.className = 'copy-btn';
+            button.innerHTML = '<i class="far fa-copy"></i> 复制';
+            button.addEventListener('click', () => {
+                const code = block.querySelector('code').innerText;
+                navigator.clipboard.writeText(code).then(() => {
+                    button.innerHTML = '<i class="fas fa-check"></i> 已复制!';
+                    setTimeout(() => {
+                        button.innerHTML = '<i class="far fa-copy"></i> 复制';
+                    }, 2000);
+                }).catch(err => {
+                    console.error('复制失败', err);
+                    button.innerText = '复制失败';
+                });
+            });
+            block.appendChild(button);
+        });
+    };
+
     const addMessageToUI = (sender, text) => {
         const messageWrapper = document.createElement('div');
         messageWrapper.className = `message ${sender}`;
@@ -169,7 +192,6 @@ document.addEventListener('DOMContentLoaded', () => {
         if (text === '...thinking...') {
              content.innerHTML = '<div class="typing-indicator"><span></span><span></span><span></span></div>';
         } else {
-            // 使用 marked 将 markdown 文本转换为 HTML
             content.innerHTML = marked.parse(text);
         }
 
@@ -177,7 +199,7 @@ document.addEventListener('DOMContentLoaded', () => {
         messageWrapper.appendChild(content);
         dom.messageList.appendChild(messageWrapper);
         dom.messageList.parentElement.scrollTop = dom.messageList.parentElement.scrollHeight;
-        return content; // 返回的是 content div，用于后续更新
+        return content;
     };
 
     const handleSendMessage = async () => {
@@ -206,7 +228,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const callApi = async (targetElement) => {
         const { apiType, model } = apiSettings;
         let finalResponseText = '';
-        targetElement.innerHTML = ''; // 清空 "thinking" 指示器
+        targetElement.innerHTML = '';
 
         const systemPrompt = dom.systemPromptInput.value.trim();
         let messages = [];
@@ -275,10 +297,11 @@ document.addEventListener('DOMContentLoaded', () => {
             conversationHistory.push({ role: 'assistant', content: finalResponseText });
         }
         
-        // 在消息流结束后，对新内容中的所有代码块进行高亮
         targetElement.querySelectorAll('pre code').forEach((block) => {
             hljs.highlightElement(block);
         });
+
+        addCopyButtons(targetElement);
     };
     
     const handleNewChat = () => {
