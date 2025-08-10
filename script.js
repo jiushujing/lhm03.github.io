@@ -161,21 +161,27 @@ document.addEventListener('DOMContentLoaded', () => {
         const codeBlocks = targetElement.querySelectorAll('pre');
         codeBlocks.forEach(block => {
             if (block.querySelector('.copy-btn')) return;
+
             const button = document.createElement('button');
             button.className = 'copy-btn';
-            button.innerHTML = '<i class="far fa-copy"></i> 复制';
+            button.title = '复制'; // 添加 title 提示
+            button.innerHTML = '<i class="far fa-copy"></i>';
+            
             button.addEventListener('click', () => {
                 const code = block.querySelector('code').innerText;
                 navigator.clipboard.writeText(code).then(() => {
-                    button.innerHTML = '<i class="fas fa-check"></i> 已复制!';
+                    button.innerHTML = '<i class="fas fa-check"></i>';
+                    button.title = '已复制!';
                     setTimeout(() => {
-                        button.innerHTML = '<i class="far fa-copy"></i> 复制';
+                        button.innerHTML = '<i class="far fa-copy"></i>';
+                        button.title = '复制';
                     }, 2000);
                 }).catch(err => {
                     console.error('复制失败', err);
-                    button.innerText = '复制失败';
+                    button.title = '复制失败';
                 });
             });
+
             block.appendChild(button);
         });
     };
