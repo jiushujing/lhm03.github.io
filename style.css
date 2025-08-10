@@ -99,6 +99,7 @@ html, body {
     overflow-x: auto;
     font-size: 14px;
     line-height: 1.6;
+    position: relative; /* 让复制按钮可以相对于它定位 */
 }
 
 .message .content code {
@@ -112,27 +113,25 @@ html, body {
     border-radius: 4px;
     font-size: 0.9em;
 }
-/* --- COPY BUTTON STYLES --- */
-.message .content pre {
-    position: relative; /* 让复制按钮可以相对于它定位 */
-}
 
+/* --- COPY BUTTON STYLES --- */
 .copy-btn {
     position: absolute;
-    top: 10px;
-    right: 10px;
-    padding: 6px 10px;
+    top: 8px;
+    right: 8px;
+    width: 36px; /* 固定宽度 */
+    height: 36px; /* 固定高度 */
     background-color: #4a505c;
     color: #e0e0e0;
     border: 1px solid #6c757d;
     border-radius: 6px;
     cursor: pointer;
-    font-size: 13px;
+    font-size: 16px; /* 稍微调大图标 */
     opacity: 0.7;
     transition: opacity 0.2s, background-color 0.2s;
-    display: flex;
-    align-items: center;
-    gap: 5px;
+    display: flex; /* 使用 flex 布局 */
+    justify-content: center; /* 水平居中 */
+    align-items: center; /* 垂直居中 */
 }
 
 .copy-btn:hover {
