@@ -161,12 +161,10 @@ document.addEventListener('DOMContentLoaded', () => {
         const codeBlocks = targetElement.querySelectorAll('pre');
         codeBlocks.forEach(block => {
             if (block.querySelector('.copy-btn')) return;
-
             const button = document.createElement('button');
             button.className = 'copy-btn';
-            button.title = '复制'; // 添加 title 提示
+            button.title = '复制';
             button.innerHTML = '<i class="far fa-copy"></i>';
-            
             button.addEventListener('click', () => {
                 const code = block.querySelector('code').innerText;
                 navigator.clipboard.writeText(code).then(() => {
@@ -181,7 +179,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     button.title = '复制失败';
                 });
             });
-
             block.appendChild(button);
         });
     };
@@ -215,7 +212,6 @@ document.addEventListener('DOMContentLoaded', () => {
         isSending = true;
         dom.sendBtn.disabled = true;
         dom.chatInput.value = '';
-        autoResizeTextarea();
         addMessageToUI('user', userInput);
         conversationHistory.push({ role: 'user', content: userInput });
         const thinkingMessageContent = addMessageToUI('assistant', '...thinking...');
@@ -319,31 +315,19 @@ document.addEventListener('DOMContentLoaded', () => {
         dom.chatInput.value = '';
     };
 
-    const autoResizeTextarea = () => {
-        dom.chatInput.style.height = 'auto';
-        dom.chatInput.style.height = `${dom.chatInput.scrollHeight}px`;
-    };
-// --- EVENT LISTENERS ---
-
-// 新增：强制聚焦输入框以修复特殊浏览器兼容性问题
-dom.chatInput.parentElement.addEventListener('click', () => {
-    dom.chatInput.focus();
-});
-
-dom.sendBtn.addEventListener('click', handleSendMessage);
-// ... 其他的 event listener ...
-    
     // --- EVENT LISTENERS ---
     dom.sendBtn.addEventListener('click', handleSendMessage);
     dom.newChatBtn.addEventListener('click', handleNewChat);
     dom.refreshBtn.addEventListener('click', handleNewChat);
-    dom.chatInput.addEventListener('input', autoResizeTextarea);
+    
+    // 监听 input 的 keydown 事件，只处理 Enter
     dom.chatInput.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter' && !e.shiftKey) {
-            e.preventDefault();
+        if (e.key === 'Enter') {
+            e.preventDefault(); // 阻止默认的回车行为（如表单提交）
             handleSendMessage();
         }
     });
+
     dom.apiSettingsBtn.addEventListener('click', openApiModal);
     dom.closeModalBtn.addEventListener('click', closeApiModal);
     dom.modalOverlay.addEventListener('click', (e) => {
